@@ -19,6 +19,12 @@ RUN arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") && \
 # A temporary symlink to support the old executable name
 RUN ln -s -r /publish/nethermind /publish/Nethermind.Runner
 
+# Creating these directiories here is needed to ensure the correct permissions
+RUN cd /publish && \
+  mkdir keystore && \
+  mkdir logs && \
+  mkdir nethermind_db
+
 FROM --platform=$TARGETPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0-jammy
 
 WORKDIR /nethermind
@@ -29,9 +35,11 @@ VOLUME /nethermind/nethermind_db
 
 EXPOSE 8545 8551 30303
 
-COPY --from=build /publish .
+COPY --from=build --chown=app /publish .
 
 RUN apt-get update && apt-get -y install libsnappy-dev && \
   rm -rf /var/lib/apt/lists/*
+
+USER app
 
 ENTRYPOINT ["./nethermind"]
