@@ -19,4 +19,10 @@
     <PackageReference Include="FastEnum" />
     <PackageReference Include="RocksDB" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="runtimes\linux-x64\native\librocksdb.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
