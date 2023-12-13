@@ -93,7 +93,7 @@ namespace Nethermind.Trie.Pruning
 
             public ITrieNodeResolver GetStorageTrieNodeResolver(Hash256? address)
             {
-                return new ReadOnlyStorageTrieStore(_trieStoreImplementation, _address);
+                return new ReadOnlyStorageTrieStore(_trieStoreImplementation, address);
             }
 
             public void Dispose()
